@@ -33,7 +33,7 @@ jobs:
           name: format-patch
           path: format.patch
       - run: cargo fmt --all -- --check
-      - run: cargo clippy --locked --workspace --all-features -- -D warnings
+      - run: cargo clippy --locked -p tokscale-core --all-features -- -D warnings
       - run: cargo test --locked -p tokscale-core
       - run: cargo build --locked --release -p tokscale-cli
         env:
@@ -45,3 +45,16 @@ jobs:
           path: target/release/tokscale.exe
       - name: Verify committed formatting
         run: git diff --exit-code
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.ref }}
+      - uses: dtolnay/rust-toolchain@1.98.0
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo fmt --all -- --check
+      - run: cargo clippy --locked --workspace --all-features -- -D warnings
+      - run: cargo test --locked -p tokscale-core
