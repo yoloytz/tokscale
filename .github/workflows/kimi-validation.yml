@@ -11,7 +11,7 @@ jobs:
   backend:
     runs-on: windows-latest
     env:
-      CC_SWITCH_TEST_HOME: ${{ runner.temp }}/kimi-test-home
+      CC_SWITCH_TEST_HOME: ${{ github.workspace }}/kimi-test-home
     steps:
       - uses: actions/checkout@v5
         with:
